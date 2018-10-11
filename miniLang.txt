@@ -1,0 +1,31 @@
+1 .Language Definition:
+  1.1 Alphabet:
+  1.1.a. Lower case english characters (a-z);
+      c. Decimal digits (0-9);
+  Lexic:
+      a.Special symbols, representing:
+	 - operators + - * / = < <= == >=
+	 - separators [ ] { }  : ; space
+	 - reserved words:
+		main char const do else if int while write 
+	    	
+		//array of program read 
+		//then var
+ 
+      b.identifiers
+	   -a sequence of letters and  digits, such that the first charater is a letter; the rule is:
+	     identifier = letter | letter{letter}{digit}
+	     letter = "a" | "b" |...| "z"
+	     digit = "0" | "1" |...| "9"
+
+      c.constants
+	 1.int
+	      	noconst = [-]no
+	      	no = nonzero{digit}
+		nonzero = "1" |...| "9"
+	 2.char
+	     	character = 'letter'|'digit'
+	 3.string
+	      	constchar = "string"
+	      	string = character{string}
+	      	character = letter|digit
