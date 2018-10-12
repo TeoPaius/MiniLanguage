@@ -5,12 +5,12 @@
   Lexic:
       a.Special symbols, representing:
 	 - operators + - * / = < <= == >=
-	 - separators [ ] { }  : ; space
+	 - separators ( ) [ ] { }  ; space
 	 - reserved words:
-		main char const do else if int while write 
-	    	
-		//array of program read 
-		//then var
+		main char const else if int while write true false
+	    cin cout	
+		string bool char
+		struct
  
       b.identifiers
 	   -a sequence of letters and  digits, such that the first charater is a letter; the rule is:
@@ -29,3 +29,99 @@
 	      	constchar = "string"
 	      	string = character{string}
 	      	character = letter|digit
+	 4.bool
+		boolean = "true" | "false"		
+
+
+2.2 Syntax:
+The words - predefined tokens are specified between " and ":	
+a) Sintactical rules:
+    program  = "main{" decllist ";" cmpdstmt "}"
+	
+   decllist  = declaration | declaration ";" decllist
+ declaration = vardecl | arraydecl | structdecl
+	vardecl  = type " " IDENTIFIER "=" nr
+      type   = "bool" | "char" | "int" | "string"
+  arraydecl  = type IDENTIFIER "[" nr "]"
+  structdecl = "struct" IDENTIFIER "{" decllist "}" 
+  
+   cmpdstmt  = "{" stmtlist "}"
+   stmtlist  = stmt | stmt ";" stmtlist
+       stmt  = simplstmt | structstmt | iostmt
+  simplstmt  = assignstmt | iostmt
+ assignstmt  = IDENTIFIER " = " expression
+ expression  = expression ("+" | "-") term | term
+       term  = term ("*" | "/") factor | factor
+     factor  = "(" expression ")" | IDENTIFIER | nr
+	 
+     iostmt  = writestmt | readstmt
+	readstmt = "CIN " IDENTIFIER
+   writestmt = "COUT " (IDENTIFIER | CONSTANT)
+   
+ structstmt  = cmpdstmt | ifstmt | whilestmt
+     ifstmt  = "IF" "(" condition ")" cmpdstmt "ELSE" "{" stmt "}"
+  whilestmt  = "WHILE" "(" condition ")" cmpdstmt
+  condition  = expression RELATION expression
+  
+  
+b) lexical rules:
+ IDENTIFIER ::= letter | letter{letter}{digit}
+     letter ::= "A" | "B" | . ..| "Z"
+      digit ::= "0" | "1" |...| "9"
+	nr   = ("1" |...| "9"){digit}
+   RELATION ::= "<" | "<=" | "==" | "!=" | ">=" | ">"
+   
+   
+   
+Codification:
+-------------------------
+| Token type	|   code|
+-------------------------
+identifier 	- 0
+constatnt 	- 1
+
+main 	2
+char 	3
+const   4
+
+int 	5
+char	6
+bool	7
+string 	8
+
+true	9
+false	10
+
+if   	11 
+else    12	
+		
+while 	13
+
+cin		14
+cout	15
+
+{		16
+}		17
+
+[		18
+]		19
+
+(		20
+)		21
+
++		22
+-		23
+*		24
+/		25
+
+<		26
+<=		27
+==		28
+!=		29
+>=		30
+>		31
+=   	32
+
+;		33
+
+struct	34
