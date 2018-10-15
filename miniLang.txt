@@ -59,17 +59,17 @@ a) Sintactical rules:
    writestmt = "COUT " (IDENTIFIER | CONSTANT)
    
  structstmt  = cmpdstmt | ifstmt | whilestmt
-     ifstmt  = "IF" "(" condition ")" cmpdstmt "ELSE" "{" stmt "}"
+     ifstmt  = "IF" "(" condition ")" cmpdstmt [ "ELSE" "{" cmpdstmt "}" ]
   whilestmt  = "WHILE" "(" condition ")" cmpdstmt
   condition  = expression RELATION expression
   
   
 b) lexical rules:
- IDENTIFIER ::= letter | letter{letter}{digit}
-     letter ::= "A" | "B" | . ..| "Z"
-      digit ::= "0" | "1" |...| "9"
+ IDENTIFIER  = letter | letter{letter}{digit}
+     letter  = "A" | "B" | . ..| "Z"
+      digit  = "0" | "1" |...| "9"
 	nr   = ("1" |...| "9"){digit}
-   RELATION ::= "<" | "<=" | "==" | "!=" | ">=" | ">"
+   RELATION  = "<" | "<=" | "==" | "!=" | ">=" | ">"
    
    
    
