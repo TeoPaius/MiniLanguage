@@ -13,14 +13,13 @@
 		struct
  
       b.identifiers
-	   -a sequence of letters and  digits, such that the first charater is a letter; the rule is:
-	     identifier = letter | letter{letter}{digit}
+	     identifier = letter | letter{letter}{digit}{identifier}
 	     letter = "a" | "b" |...| "z"
 	     digit = "0" | "1" |...| "9"
 
       c.constants
 	 1.int
-	      	noconst = [-]no
+	      	noconst = [-]no | "0"
 	      	no = nonzero{digit}
 		nonzero = "1" |...| "9"
 	 2.char
@@ -34,7 +33,6 @@
 
 
 2.2 Syntax:
-The words - predefined tokens are specified between " and ":	
 a) Sintactical rules:
     program  = "main{" decllist ";" cmpdstmt "}"
 	
@@ -78,7 +76,7 @@ Codification:
 | Token type	|   code|
 -------------------------
 identifier 	- 0
-constatnt 	- 1
+constant 	- 1
 
 main 	2
 char 	3
