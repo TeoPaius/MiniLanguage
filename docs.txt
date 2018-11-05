@@ -1,0 +1,14 @@
+The parser uses a set of rules located in rules.txt
+The regexes are checked using full match
+
+The stucture of the symbol table is the one of a binary tree sorted lexicographically
+	-it contains internal nodes
+	-it has methods for adding and inorder traversal
+Because it is unbalanced the following rule applyes:
+    if a node is added, the position in the preoder traversal of the other nodes is updated as follows:
+      -if its before the new node, the postion stays the same
+      -if it is after the new node, the position is incremented by one
+
+
+
+

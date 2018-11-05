@@ -1,6 +1,12 @@
 separators = ['(', ')', '[', ']', '{', '}', ' ', '\n', ';']
 keywords = ["main", "char", "const", "else", "if", "int", "while", "string", "bool", "char", "struct", "cin", "cout"]
 operators = ["+", "-", "*", "/", "=", "<", "<=", "==", ">="]
+
+identifierRegEx = "^[^\d][a-zA-Z0-9]{0,254}" #matches words that dont start with digit and then 254 other letters(upper and lower case) or digits
+numberRegEx = "([-]?[1-9][0-9]*)|[0]" #matches numbers that start with a - optionally follwed by one non zero digit and then as many other digits
+stringRegEx = "\"\w*\""   #matches a sequence of writable chars ecapsulated by double quotes
+charRegEx = "\'\w?\'"   #matches a characted ecapsulated by single quotes
+
 codes = {"main": 2,
          "struct": 3,
          "const": 4,
@@ -34,3 +40,5 @@ codes = {"main": 2,
          "=": 32,
          " ": 33,
          ";": 34}
+
+
