@@ -17,15 +17,16 @@ class Grammar:
                 if self.S is None:
                     self.S = line
 
+                elif self.N is None:
+                    self.N = line.split(',')
+                    self.N.append(self.S)
+
                 elif self.E is None:
                     self.E = line.split(',')
 
-                elif self.N is None:
-                    self.N = line.split(',')
-
                 else:
                     line = line.split('-')
-                    self.P.append((line[0], [char for char in line[1]]))
+                    self.P.append((line[0], [t for t in line[1].split(' ')]))
 
     def __repr__(self):
         return str(self)

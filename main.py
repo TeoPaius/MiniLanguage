@@ -30,5 +30,5 @@ if __name__ == '__main__':
     #     print(node)
 
     llparser = LLParser('llparser/gramm.ar')
-
+    llparser.create_first()
     print(llparser)

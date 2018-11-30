@@ -5,21 +5,54 @@ class LLParser:
     def __init__(self, filename):
         self.grammar = Grammar(filename)
 
+
     def create_first(self):
         res = {}
+        maxI = 10
         for i in self.grammar.N:
-            res[i] = []
+            res[i] = [[] for _ in range(0, maxI)]
 
         for terminal in self.grammar.E:
-            res[terminal] = [terminal]
+            res[terminal] = [[terminal] for _ in range(0, maxI)]
+
+
+        for prod in self.grammar.P:
+            if prod[1][0] in self.grammar.E:
+                res[prod[0]][0] += ([prod[1][0]])
 
         i = 0
-        for prod in self.grammar.P:
-            if prod.right[0] in self.grammar.E:
-                res[prod.left][i] = prod.right[0]
+        ok = False
+        while not ok:
+            i = i+1
+            for x in self.grammar.N:
+                res[x][i] += res[x][i-1]
+                for prod in self.grammar.P:
+                    if prod[0] == x:
+                        res[x][i] += res[prod[1][0]][i-1]
+                        res[x][i] = list(set(res[x][i]))
+            ok = True
+            for x in res.keys():
+                if res[x][i-1] != res[x][i]:
+                    ok = False
 
-    def create_follow(self, first, grammar):
+        self.first = {}
+        for k in res.keys():
+            self.first[k] = res[k][i]
         pass
+
+    def create_follow(self, grammar):
+        pass
+
+    @staticmethod
+    def _compare_dicts(dict1: dict, dict2: dict):
+        for key in dict1.keys():
+            if key not in dict2:
+                return False
+
+            if dict1[key] != dict2[key]:
+                return False
+
+        return True
 
     def create_table(self, first, follow, grammar):
         pass
