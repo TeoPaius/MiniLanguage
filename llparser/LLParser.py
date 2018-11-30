@@ -61,13 +61,14 @@ class LLParser:
                         y = left[index + 1]
 
                         if 'ε' in self.first[y]:
-                            fp = f[B] + f[right]
+                            fp[B] = f[B] + f[right]
                         else:
-                            fp = f[B] + self.first[y]
+                            fp[B] = f[B] + self.first[y]
             if self._compare_dicts(f, fp):
                 break
 
-            self.follow = copy.deepcopy(fp)
+        self.follow = copy.deepcopy(fp)
+        print(self.follow)
 
     def parse(self):
         self.create_first()
