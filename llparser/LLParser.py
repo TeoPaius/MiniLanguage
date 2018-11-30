@@ -1,3 +1,5 @@
+import copy
+
 from llparser.Grammar import Grammar
 
 
@@ -5,6 +7,7 @@ class LLParser:
     def __init__(self, filename):
         self.grammar = Grammar(filename)
         self.first = None
+        self.follow = None
 
     def create_first(self):
         res = {}
@@ -29,10 +32,24 @@ class LLParser:
             for B in self.grammar.N:
                 for A in self.grammar.P:
                     A = A[1]
-                    if B in A and 0 < A.index(B) < len(A) - 1:
-                        print(B)
+                    index = None
+
+                    try:
+                        index = A.index(B)
+                    except ValueError:
+                        pass
+
+                    if index is not None and 0 < index < len(A) - 1:
+                        y = A[index + 1]
+
+                        if 'ε' in self.first[y]:
+                            fp = f[B] + f[A]
+                        else:
+                            fp = f[B] + self.first[y]
             if fp == f:
                 break
+
+            self.follow = copy.deepcopy(fp)
 
     @staticmethod
     def _compare_dicts(dict1: dict, dict2: dict):

@@ -19,7 +19,7 @@ class Grammar:
 
                 elif self.N is None:
                     self.N = line.split(',')
-                    self.N.append('S')
+                    self.N.append(self.S)
 
                 elif self.E is None:
                     self.E = line.split(',')
