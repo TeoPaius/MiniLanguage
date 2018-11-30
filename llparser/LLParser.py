@@ -1,3 +1,6 @@
+from llparser.Grammar import Grammar
+
+
 class LLParser:
     def __init__(self):
         pass
