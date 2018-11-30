@@ -12,7 +12,6 @@ if __name__ == '__main__':
     # print("--PIF--\n"+ str(pif) + "\n--PIF--\n")
     # print("--ST--\n" + str(st) + "\n--ST--\n")
 
-
     #
     # tree = Tree()
     #
@@ -31,4 +30,5 @@ if __name__ == '__main__':
 
     llparser = LLParser('llparser/gramm.ar')
 
-    print(llparser)
+    # print(llparser)
+    llparser.create_follow()
