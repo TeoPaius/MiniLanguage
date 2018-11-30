@@ -10,19 +10,23 @@ class LLParser:
         self.follow = None
 
     def create_first(self):
-        res = {}
-        for i in self.grammar.N:
-            res[i] = []
-
-        for terminal in self.grammar.E:
-            res[terminal] = [terminal]
-
-        i = 0
-        for prod in self.grammar.P:
-            if prod.right[0] in self.grammar.E:
-                res[prod.left][i] = prod.right[0]
-
-        self.first = {'S': ['(', 'a'], 'A': ['+', 'ε'], 'C': ['ε', '+'], 'D': ['(', 'a'], 'B': ['(', 'a']}
+        self.first = {'S': ['(', 'a'], 'A': ['+', 'ε'], 'C': ['ε', '+'], 'D': ['(', 'a'], 'B': ['(', 'a'],
+                      '+': ['+'], '(': ['('], ')': [')'], 'a': ['a']}
+        return
+        #
+        # res = {}
+        # for i in self.grammar.N:
+        #     res[i] = []
+        #
+        # for terminal in self.grammar.E:
+        #     res[terminal] = [terminal]
+        #
+        # i = 0
+        # for prod in self.grammar.P:
+        #     if prod.right[0] in self.grammar.E:
+        #         res[prod.left][i] = prod.right[0]
+        #
+        # self.first = {'S': ['(', 'a'], 'A': ['+', 'ε'], 'C': ['ε', '+'], 'D': ['(', 'a'], 'B': ['(', 'a']}
 
     def create_follow(self):
         f = {k: ([] if k != 'S' else ['ε']) for k in self.grammar.N}
@@ -30,26 +34,31 @@ class LLParser:
 
         while self._compare_dicts(f, fp):
             for B in self.grammar.N:
-                for A in self.grammar.P:
-                    A = A[1]
+                for production in self.grammar.P:
+                    right = production[0]
+                    left = production[1]
                     index = None
 
                     try:
-                        index = A.index(B)
+                        index = left.index(B)
                     except ValueError:
                         pass
 
-                    if index is not None and 0 < index < len(A) - 1:
-                        y = A[index + 1]
+                    if index is not None and 0 < index < len(left) - 1:
+                        y = left[index + 1]
 
                         if 'ε' in self.first[y]:
-                            fp = f[B] + f[A]
+                            fp = f[B] + f[right]
                         else:
                             fp = f[B] + self.first[y]
-            if fp == f:
+            if self._compare_dicts(f, fp):
                 break
 
             self.follow = copy.deepcopy(fp)
+
+    def parse(self):
+        self.create_first()
+        self.create_follow()
 
     @staticmethod
     def _compare_dicts(dict1: dict, dict2: dict):

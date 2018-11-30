@@ -31,4 +31,6 @@ if __name__ == '__main__':
     llparser = LLParser('llparser/gramm.ar')
 
     # print(llparser)
-    llparser.create_follow()
+    llparser.parse()
+
+    print(llparser.follow)
