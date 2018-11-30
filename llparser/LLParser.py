@@ -42,36 +42,44 @@ class LLParser:
             self.first[k] = res[k][i]
 
     def create_follow(self):
-        f = {k: ([] if k != 'S' else ['ε']) for k in self.grammar.N}
-        fp = {k: ([] if k != 'S' else ['ε']) for k in self.grammar.N}
+        f = {k: (set() if k != 'S' else set('ε')) for k in self.grammar.N}
+        modified = True
 
-        while self._compare_dicts(f, fp):
+        while modified:
+            modified = False
+
             for B in self.grammar.N:
                 for production in self.grammar.P:
-                    right = production[0]
-                    left = production[1]
+                    tempfb = copy.deepcopy(f[B])
+
+                    left = production[0]
+                    right = production[1]
                     index = None
 
                     try:
-                        index = left.index(B)
+                        index = right.index(B)
                     except ValueError:
                         pass
 
-                    if index is not None and 0 < index < len(left) - 1:
-                        y = left[index + 1]
+                    if index is not None and 0 < index < len(right) - 1:
+                        y = right[index + 1]
+
+                        f[B].update(set(self.first[y]))
 
                         if 'ε' in self.first[y]:
-                            fp[B] = f[B] + f[right]
-                        else:
-                            fp[B] = f[B] + self.first[y]
+                            f[B].remove('ε')
+                            f[B].update(set(f[left]))
 
-                    elif index is not None and index == len(left) - 1:
-                        fp[B] = f[B] + f[right]
+                    elif index is not None and index == len(right) - 1:
+                        f[B].update(set(f[left]))
 
-            if self._compare_dicts(f, fp):
+                    if f[B] != tempfb:
+                        modified = True
+
+            if not modified:
                 break
 
-        self.follow = copy.deepcopy(fp)
+        self.follow = copy.deepcopy(f)
         print(self.follow)
 
     def parse(self):
