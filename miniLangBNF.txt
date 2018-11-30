@@ -1,0 +1,124 @@
+1 .Language Definition:
+  1.1 Alphabet:
+  1.1.a. Lower case english characters (a-z);
+      c. Decimal digits (0-9);
+  Lexic:
+      a.Special symbols, representing:
+	 - operators + - * / = < <= == >=
+	 - separators ( ) [ ] { }  ; space
+	 - reserved words:
+		main char const else if int while write true false
+	    cin cout	
+		string bool char
+		struct
+ 
+      b.identifiers
+	     <identifier> := <letter> | <letter> <identifier>
+	     <letter> := "a" | "b" |...| "z"
+	     <digit> := "0" | "1" |...| "9"
+
+      c.constants
+	 1.int
+	      	<noconst> := -<no> | <no> | "0"
+	      	<no> := <digit> | <no> <digit> 
+	 2.char
+	     	<character> := '<letter>'|'<digit>'
+	 3.string
+	      	<constchar> := "<string>"
+	      	<string> := <character> | <character> <string>
+	      	<character> := <letter>|<digit>
+	 4.bool
+		<boolean> := "true" | "false"		
+
+
+2.2 Syntax:
+a) Sintactical rules:
+    <program>  := "main" "{" <decllist> ";" <cmpdstmt> "}"
+	
+   <decllist>  := <declaration> | <declaration> ";" <decllist>
+ <declaration> := <vardecl> | <arraydecl> | <structdecl>
+	<vardecl>  := <type> " " <IDENTIFIER> "=" <nr>
+      <type>   := "bool" | "char" | "int" | "string"
+  <arraydecl>  := <type> <IDENTIFIER> "[" <nr> "]"
+  <structdecl> := "struct" <IDENTIFIER> "{" <decllist> "}" 
+  
+   <cmpdstmt>  := "{" <stmtlist> "}"
+   <stmtlist>  := <stmt> | <stmt> ";" <stmtlist>
+       <stmt>  := <simplstmt> | <structstmt> | <iostmt>
+  <simplstmt>  := <assignstmt> | <iostmt>
+ <assignstmt>  := <IDENTIFIER> " = " <expression>
+ <expression>  := <expression> "+" <term> | <expression> "-" <term>  | <term>
+       <term>  := <term> "/" <factor> | <term> "*" <factor> | <factor>
+     <factor>  := "(" <expression> ")" | <IDENTIFIER> | <nr>
+	 
+     <iostmt>  := <writestmt> | <readstmt>
+	<readstmt> := "CIN " <IDENTIFIER>
+   <writestmt> := "COUT " <IDENTIFIER> | "COUT " <IDENTIFIER>
+   
+ <structstmt>  := <cmpdstmt> | <ifstmt> | <whilestmt>
+     <ifstmt>  := "IF" "(" <condition> ")" <cmpdstmt> "ELSE" "{" <cmpdstmt> "}" 
+  <whilestmt>  := "WHILE" "(" <condition> ")" <cmpdstmt>
+  <condition>  := <expression> <RELATION> <expression>
+  
+  
+b) lexical rules:
+ <IDENTIFIER>  := <letter> | <letter> <IDENTIFIER>
+     <letter>  := "A" | "B" | . ..| "Z"
+      <digit>  := "0" | "1" |...| "9"
+	<nr>   := ("1" |...| "9"){digit}
+   <RELATION>  := "<" | "<=" | "==" | "!=" | ">=" | ">"
+   
+   
+   
+Codification:
+-------------------------
+| Token type	|   code|
+-------------------------
+identifier 	- 0
+constant 	- 1
+
+main 	2
+char 	3
+const   4
+
+int 	5
+char	6
+bool	7
+string 	8
+
+true	9
+false	10
+
+if   	11 
+else    12	
+		
+while 	13
+
+cin		14
+cout	15
+
+{		16
+}		17
+
+[		18
+]		19
+
+(		20
+)		21
+
++		22
+-		23
+*		24
+/		25
+
+<		26
+<=		27
+==		28
+!=		29
+>=		30
+>		31
+=   	32
+
+;		33
+
+struct	34
