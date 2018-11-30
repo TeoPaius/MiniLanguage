@@ -64,6 +64,10 @@ class LLParser:
                             fp[B] = f[B] + f[right]
                         else:
                             fp[B] = f[B] + self.first[y]
+
+                    elif index is not None and index == len(left) - 1:
+                        fp[B] = f[B] + f[right]
+
             if self._compare_dicts(f, fp):
                 break
 
