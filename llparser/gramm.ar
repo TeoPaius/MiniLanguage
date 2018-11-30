@@ -1,11 +1,11 @@
 S
 A,B,C,D
-a,+,ε
-S-BA
-A-+BA
+a,+,*,ε,(,)
+S-B A
+A-+ B A
 A-ε
-B-DC
-C-ADC
+B-D C
+C-* D C
 C-ε
-D-(S)
+D-( S )
 D-a
