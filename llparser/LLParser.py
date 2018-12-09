@@ -1,6 +1,7 @@
 import copy
 
 from llparser.Grammar import Grammar
+from llparser.LLTable import LLTable
 
 
 class LLParser:
@@ -8,6 +9,7 @@ class LLParser:
         self.grammar = Grammar(filename)
         self.first = None
         self.follow = None
+        self.table = None
 
     def create_first(self):
         res = {}
@@ -85,6 +87,7 @@ class LLParser:
     def parse(self):
         self.create_first()
         self.create_follow()
+        self.create_table()
         pass
 
     @staticmethod
@@ -98,8 +101,10 @@ class LLParser:
 
         return True
 
-    def create_table(self, first, follow, grammar):
-        pass
+    def create_table(self):
+        self.table = LLTable(self.grammar)
+        print(self.table.get('$', '$'))
+        return
 
     def analyse_seq(self, table, sequence):
         pass
