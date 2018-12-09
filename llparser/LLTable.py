@@ -18,10 +18,10 @@ class LLTable:
         self.set('$', '$', 'acc')
 
     def get_indices(self, i, j):
-        if i == 'ε':
+        if i == 'eps':
             i = '$'
 
-        if j == 'ε':
+        if j == 'eps':
             j = '$'
 
         i = self.row_indices.index(i)
@@ -65,8 +65,8 @@ class LLTable:
         return string
 
     def __remove_eps(self):
-        eps_col_index = self.col_indices.index('ε')
-        eps_row_index = self.row_indices.index('ε')
+        eps_col_index = self.col_indices.index('eps')
+        eps_row_index = self.row_indices.index('eps')
 
         if eps_col_index >= 0:
             self.col_indices.pop(eps_col_index)

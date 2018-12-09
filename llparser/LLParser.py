@@ -44,7 +44,7 @@ class LLParser:
             self.first[k] = res[k][i]
 
     def create_follow(self):
-        f = {k: (set() if k != 'S' else set('ε')) for k in self.grammar.N}
+        f = {k: (set() if k != 'S' else {'eps'}) for k in self.grammar.N}
         modified = True
 
         while modified:
@@ -68,8 +68,8 @@ class LLParser:
 
                         f[B].update(set(self.first[y]))
 
-                        if 'ε' in self.first[y]:
-                            f[B].remove('ε')
+                        if 'eps' in self.first[y]:
+                            f[B].remove('eps')
                             f[B].update(set(f[left]))
 
                     elif index is not None and index == len(right) - 1:
@@ -105,7 +105,7 @@ class LLParser:
 
         for i in range(0, len(self.grammar.P)):
             first = self.first[self.grammar.P[i][1][0]]
-            if 'ε' not in first:
+            if 'eps' not in first:
                 for elem in first:
                     self.table.set(self.grammar.P[i][0], elem, (self.grammar.P[i][1], i))
             else:
@@ -122,21 +122,25 @@ class LLParser:
     def analyse_seq(self, sequence):
 
         working_stack = ['$', self.grammar.S]
-        input_stack = ['$'] + sequence
+        input_stack =  sequence + ['$']
         output = []
 
         while True:
-            u = input_stack[-1]
+            print('\nw_stack: ' + str(working_stack) + "\ni_stack: " + str(input_stack))
+            u = input_stack[0]
             A = working_stack[-1]
+            if A == 'eps':
+                working_stack.pop()
+                continue
 
             if self.table.get(A,u) == "err":
                 print("ERROR PARSING" + '\nw_stack: ' + str(working_stack) + "\ni_stack: " + str(input_stack))
-                return None
+                return output
             if self.table.get(A,u) == "acc":
                 print("OK PARSING")
                 return output
             if self.table.get(A,u) == "pop":
-                input_stack.pop()
+                input_stack.pop(0)
                 working_stack.pop()
                 continue
 
