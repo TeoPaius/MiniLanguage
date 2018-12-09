@@ -108,27 +108,27 @@ class LLParser:
 
     def analyse_seq(self, table, sequence):
 
-        working_stack = []
-        input_stack = sequence
+        working_stack = ['$', self.grammar.S]
+        input_stack = ['$'] + sequence
         output = []
 
         while True:
             u = input_stack[-1]
             A = working_stack[-1]
 
-            if table[A][u] == "err":
+            if table.get(A,u) == "err":
                 print("ERROR PARSING" + '\nw_stack: ' + str(working_stack) + "\ni_stack: " + str(input_stack))
                 return None
-            if table[A][u] == "acc":
+            if table.get(A,u) == "acc":
                 print("OK PARSING")
                 return output
-            if table[A][u] == "pop":
+            if table.get(A,u) == "pop":
                 input_stack.pop()
                 working_stack.pop()
                 continue
 
-            B = table[A][u][0]
-            i = table[A][u][1]
+            B = table.get(A,u)[0]
+            i = table.get(A,u)[1]
 
             working_stack.pop()
             for idx in range(len(B)-1, -1, -1):
