@@ -6,7 +6,15 @@ class LLTable:
         self.col_indices = copy.deepcopy(grammar.E + ['$'])
         self.row_indices = copy.deepcopy(grammar.E + grammar.N + ['$'])
 
+        # Create the table
         self.table = [['err' for _ in self.col_indices] for _ in self.row_indices]
+
+        # Put pop for non terminals
+        for non_terminal in grammar.E:
+            self.set(non_terminal, non_terminal, 'pop')
+
+        # Put acc for $ $
+        self.set('$', '$', 'acc')
 
     def get_indices(self, i, j):
         i = self.col_indices.index(i)
