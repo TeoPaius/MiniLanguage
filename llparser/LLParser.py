@@ -82,7 +82,6 @@ class LLParser:
                 break
 
         self.follow = copy.deepcopy(f)
-        print(self.follow)
 
     def parse(self):
         self.create_first()
@@ -103,8 +102,17 @@ class LLParser:
 
     def create_table(self):
         self.table = LLTable(self.grammar)
-        print(self.table.get('$', '$'))
-        return
+
+        for i in range(0, len(self.grammar.P)):
+            first = self.first[self.grammar.P[i][1][0]]
+            if 'ε' not in first:
+                for elem in first:
+                    self.table.set(self.grammar.P[i][0], elem, (self.grammar.P[i][1], i))
+            else:
+                for elem in self.follow[self.grammar.P[i][0]]:
+                    self.table.set(self.grammar.P[i][0], elem, (self.grammar.P[i][1], i))
+
+        print(self.table)
 
     def analyse_seq(self, table, sequence):
         pass

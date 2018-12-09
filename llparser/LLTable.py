@@ -17,7 +17,7 @@ class LLTable:
         self.set('$', '$', 'acc')
 
     def get_indices(self, i, j):
-        i = self.col_indices.index(i)
+        i = self.row_indices.index(i)
         j = self.col_indices.index(j)
 
         if i < 0:
@@ -40,4 +40,19 @@ class LLTable:
         return str(self)
 
     def __str__(self):
-        return str(self.table)
+        # Format header
+        string = "-\t"
+        for item in self.col_indices:
+            string += '\t{0}'.format(item)
+        string += '\n'
+
+        # Format each line
+        for i in range(0, len(self.table)):
+            string += '{0}\t'.format(self.row_indices[i])
+
+            for j in range(0, len(self.table[i])):
+                string += '{0}\t'.format(self.table[i][j])
+
+            string += '\n'
+
+        return string
