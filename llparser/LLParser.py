@@ -1,6 +1,7 @@
 import copy
 
 from llparser.Grammar import Grammar
+from llparser.LLTable import LLTable
 
 
 class LLParser:
@@ -8,6 +9,7 @@ class LLParser:
         self.grammar = Grammar(filename)
         self.first = None
         self.follow = None
+        self.table = None
 
     def create_first(self):
         res = {}
@@ -80,11 +82,11 @@ class LLParser:
                 break
 
         self.follow = copy.deepcopy(f)
-        print(self.follow)
 
     def parse(self):
         self.create_first()
         self.create_follow()
+        self.create_table()
         pass
 
     @staticmethod
@@ -98,8 +100,19 @@ class LLParser:
 
         return True
 
-    def create_table(self, first, follow, grammar):
-        pass
+    def create_table(self):
+        self.table = LLTable(self.grammar)
+
+        for i in range(0, len(self.grammar.P)):
+            first = self.first[self.grammar.P[i][1][0]]
+            if 'ε' not in first:
+                for elem in first:
+                    self.table.set(self.grammar.P[i][0], elem, (self.grammar.P[i][1], i))
+            else:
+                for elem in self.follow[self.grammar.P[i][0]]:
+                    self.table.set(self.grammar.P[i][0], elem, (self.grammar.P[i][1], i))
+
+        print(self.table)
 
 
     def split_seq(self, seq):
