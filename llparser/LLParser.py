@@ -106,7 +106,7 @@ class LLParser:
         return seq.split(' ')
 
 
-    def analyse_seq(self, table, sequence):
+    def analyse_seq(self, sequence):
 
         working_stack = ['$', self.grammar.S]
         input_stack = ['$'] + sequence
@@ -116,19 +116,19 @@ class LLParser:
             u = input_stack[-1]
             A = working_stack[-1]
 
-            if table.get(A,u) == "err":
+            if self.table.get(A,u) == "err":
                 print("ERROR PARSING" + '\nw_stack: ' + str(working_stack) + "\ni_stack: " + str(input_stack))
                 return None
-            if table.get(A,u) == "acc":
+            if self.table.get(A,u) == "acc":
                 print("OK PARSING")
                 return output
-            if table.get(A,u) == "pop":
+            if self.table.get(A,u) == "pop":
                 input_stack.pop()
                 working_stack.pop()
                 continue
 
-            B = table.get(A,u)[0]
-            i = table.get(A,u)[1]
+            B = self.table.get(A,u)[0]
+            i = self.table.get(A,u)[1]
 
             working_stack.pop()
             for idx in range(len(B)-1, -1, -1):
