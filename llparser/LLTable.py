@@ -6,6 +6,7 @@ class LLTable:
         self.col_indices = copy.deepcopy(grammar.E + ['$'])
         self.row_indices = copy.deepcopy(grammar.E + grammar.N + ['$'])
 
+        self.__remove_eps()
         # Create the table
         self.table = [['err' for _ in self.col_indices] for _ in self.row_indices]
 
@@ -17,6 +18,12 @@ class LLTable:
         self.set('$', '$', 'acc')
 
     def get_indices(self, i, j):
+        if i == 'ε':
+            i = '$'
+
+        if j == 'ε':
+            j = '$'
+
         i = self.row_indices.index(i)
         j = self.col_indices.index(j)
 
@@ -56,3 +63,13 @@ class LLTable:
             string += '\n'
 
         return string
+
+    def __remove_eps(self):
+        eps_col_index = self.col_indices.index('ε')
+        eps_row_index = self.row_indices.index('ε')
+
+        if eps_col_index >= 0:
+            self.col_indices.pop(eps_col_index)
+
+        if eps_row_index >= 0:
+            self.row_indices.pop(eps_col_index)
