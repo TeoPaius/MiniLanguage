@@ -101,8 +101,41 @@ class LLParser:
     def create_table(self, first, follow, grammar):
         pass
 
+
+    def split_seq(self, seq):
+        return seq.split(' ')
+
+
     def analyse_seq(self, table, sequence):
-        pass
+
+        working_stack = []
+        input_stack = sequence
+        output = []
+
+        while True:
+            u = input_stack[-1]
+            A = working_stack[-1]
+
+            if table[A][u] == "err":
+                print("ERROR PARSING" + '\nw_stack: ' + str(working_stack) + "\ni_stack: " + str(input_stack))
+                return None
+            if table[A][u] == "acc":
+                print("OK PARSING")
+                return output
+            if table[A][u] == "pop":
+                input_stack.pop()
+                working_stack.pop()
+                continue
+
+            B = table[A][u][0]
+            i = table[A][u][1]
+
+            working_stack.pop()
+            for idx in range(len(B)-1, -1, -1):
+                working_stack.append(B[idx])
+            output.append(i)
+
+
 
     def __repr__(self):
         return str(self)
