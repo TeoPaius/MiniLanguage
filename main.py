@@ -30,4 +30,7 @@ if __name__ == '__main__':
 
     llparser = LLParser('llparser/gramm.ar')
     llparser.parse()
+    res = llparser.analyse_seq(['a', '*', '(', 'a', '+', 'a', ')'])
+    print(str(res))
+
 

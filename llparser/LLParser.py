@@ -1,6 +1,7 @@
 import copy
 
 from llparser.Grammar import Grammar
+from llparser.LLTable import LLTable
 
 
 class LLParser:
@@ -8,6 +9,7 @@ class LLParser:
         self.grammar = Grammar(filename)
         self.first = None
         self.follow = None
+        self.table = None
 
     def create_first(self):
         res = {}
@@ -42,7 +44,7 @@ class LLParser:
             self.first[k] = res[k][i]
 
     def create_follow(self):
-        f = {k: (set() if k != 'S' else set('ε')) for k in self.grammar.N}
+        f = {k: (set() if k != 'S' else {'eps'}) for k in self.grammar.N}
         modified = True
 
         while modified:
@@ -66,8 +68,8 @@ class LLParser:
 
                         f[B].update(set(self.first[y]))
 
-                        if 'ε' in self.first[y]:
-                            f[B].remove('ε')
+                        if 'eps' in self.first[y]:
+                            f[B].remove('eps')
                             f[B].update(set(f[left]))
 
                     elif index is not None and index == len(right) - 1:
@@ -80,11 +82,11 @@ class LLParser:
                 break
 
         self.follow = copy.deepcopy(f)
-        print(self.follow)
 
     def parse(self):
         self.create_first()
         self.create_follow()
+        self.create_table()
         pass
 
     @staticmethod
@@ -98,11 +100,59 @@ class LLParser:
 
         return True
 
-    def create_table(self, first, follow, grammar):
-        pass
+    def create_table(self):
+        self.table = LLTable(self.grammar)
 
-    def analyse_seq(self, table, sequence):
-        pass
+        for i in range(0, len(self.grammar.P)):
+            first = self.first[self.grammar.P[i][1][0]]
+            if 'eps' not in first:
+                for elem in first:
+                    self.table.set(self.grammar.P[i][0], elem, (self.grammar.P[i][1], i))
+            else:
+                for elem in self.follow[self.grammar.P[i][0]]:
+                    self.table.set(self.grammar.P[i][0], elem, (self.grammar.P[i][1], i))
+
+        print(self.table)
+
+
+    def split_seq(self, seq):
+        return seq.split(' ')
+
+
+    def analyse_seq(self, sequence):
+
+        working_stack = ['$', self.grammar.S]
+        input_stack =  sequence + ['$']
+        output = []
+
+        while True:
+            print('\nw_stack: ' + str(working_stack) + "\ni_stack: " + str(input_stack))
+            u = input_stack[0]
+            A = working_stack[-1]
+            if A == 'eps':
+                working_stack.pop()
+                continue
+
+            if self.table.get(A,u) == "err":
+                print("ERROR PARSING" + '\nw_stack: ' + str(working_stack) + "\ni_stack: " + str(input_stack))
+                return output
+            if self.table.get(A,u) == "acc":
+                print("OK PARSING")
+                return output
+            if self.table.get(A,u) == "pop":
+                input_stack.pop(0)
+                working_stack.pop()
+                continue
+
+            B = self.table.get(A,u)[0]
+            i = self.table.get(A,u)[1]
+
+            working_stack.pop()
+            for idx in range(len(B)-1, -1, -1):
+                working_stack.append(B[idx])
+            output.append(i)
+
+
 
     def __repr__(self):
         return str(self)
