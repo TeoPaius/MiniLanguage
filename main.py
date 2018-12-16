@@ -5,13 +5,13 @@ from binaryTree.tree import Tree
 
 if __name__ == '__main__':
     # p = Parser()
-
+    #
     # pif, st = Parser.parseFile("input.in")
     #
     #
     # print("--PIF--\n"+ str(pif) + "\n--PIF--\n")
     # print("--ST--\n" + str(st) + "\n--ST--\n")
-
+    #
     #
     # tree = Tree()
     #

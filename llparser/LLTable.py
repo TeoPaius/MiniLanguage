@@ -3,6 +3,7 @@ import copy
 
 class LLTable:
     def __init__(self, grammar):
+        self.inited = False
         self.col_indices = copy.deepcopy(grammar.E + ['$'])
         self.row_indices = copy.deepcopy(grammar.E + grammar.N + ['$'])
 
@@ -16,6 +17,8 @@ class LLTable:
 
         # Put acc for $ $
         self.set('$', '$', 'acc')
+
+        self.inited = True
 
     def get_indices(self, i, j):
         if i == 'eps':
@@ -36,7 +39,12 @@ class LLTable:
         return i, j
 
     def set(self, i, j, val):
+        tempi = i
+        tempj = j
         i, j = self.get_indices(i, j)
+        if self.inited == True and self.table[i][j] != "err":
+            raise IndexError("NOT LL1 GRAMMAR...\ni:" + str(tempi) + "\nj:"  + str(tempj) + "\nprevious: " + str(self.table[i][j]) + "\nnew: " + str(val))
+
         self.table[i][j] = val
 
     def get(self, i, j):
