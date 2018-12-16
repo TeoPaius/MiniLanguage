@@ -49,6 +49,7 @@ class Parser:
     @staticmethod
     def processToken(token, pif, st):
         print(token)
+        pif.token_list.append(token)
         if token in rules.keywords or token in rules.operators or token in rules.separators :
             pif.pif.append((rules.codes[token], -1))
         else:

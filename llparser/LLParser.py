@@ -120,6 +120,7 @@ class LLParser:
         return seq.split(' ')
 
 
+
     def analyse_seq(self, sequence):
 
         working_stack = ['$', self.grammar.S]
