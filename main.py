@@ -30,7 +30,7 @@ if __name__ == '__main__':
 
     llparser = LLParser('llparser/gramm2.ar')
     llparser.parse()
-    res = llparser.analyse_seq(["PROGRAM"])
+    res = llparser.analyse_seq([";"])
     print(str(res))
 
 
