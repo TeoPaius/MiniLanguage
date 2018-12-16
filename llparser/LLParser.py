@@ -36,12 +36,13 @@ class LLParser:
                         res[x][i] = list(set(res[x][i]))
             ok = True
             for x in res.keys():
-                if res[x][i - 1] != res[x][i]:
+                if set(res[x][i - 1]) != set(res[x][i]):
                     ok = False
 
         self.first = {}
         for k in res.keys():
-            self.first[k] = res[k][i]
+            self.first[k] = list(set(res[k][i]))
+        pass
 
     def create_follow(self):
         f = {k: (set() if k != 'S' else {'eps'}) for k in self.grammar.N}
