@@ -28,9 +28,9 @@ if __name__ == '__main__':
     # for node in tree.inorder():
     #     print(node)
 
-    llparser = LLParser('llparser/gramm.ar')
+    llparser = LLParser('llparser/gramm2.ar')
     llparser.parse()
-    res = llparser.analyse_seq(['a', '*', '(', 'a', '+', 'a', ')'])
+    res = llparser.analyse_seq(["PROGRAM"])
     print(str(res))
 
 

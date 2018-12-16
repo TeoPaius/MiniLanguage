@@ -13,7 +13,7 @@ class LLParser:
 
     def create_first(self):
         res = {}
-        maxI = 10
+        maxI = 1000
         for i in self.grammar.N:
             res[i] = [[] for _ in range(0, maxI)]
 
