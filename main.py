@@ -2,14 +2,16 @@ from llparser.Grammar import Grammar
 from llparser.LLParser import LLParser
 from model.Parser import Parser
 from binaryTree.tree import Tree
+from rules.rules import codes
 
 if __name__ == '__main__':
-    # p = Parser()
+    p = Parser()
     #
-    # pif, st = Parser.parseFile("input.in")
+    print(codes)
+    pif, st = Parser.parseFile("input.in")
     #
     #
-    # print("--PIF--\n"+ str(pif) + "\n--PIF--\n")
+    print("--PIF--\n"+ str(pif) + "\n--PIF--\n")
     # print("--ST--\n" + str(st) + "\n--ST--\n")
     #
     #
