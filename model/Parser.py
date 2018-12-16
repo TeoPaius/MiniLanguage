@@ -42,7 +42,8 @@ class Parser:
                 else:
                     buffer += c
 
-        Parser.processToken(buffer, pif, st)
+        if buffer != '':
+            Parser.processToken(buffer, pif, st)
         return pif, st
 
     @staticmethod
